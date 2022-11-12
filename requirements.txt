@@ -11,6 +11,8 @@ Jinja2==3.0.2
 jsonschema==4.1.0
 MarkupSafe==2.0.1
 marshmallow==3.13.0
+paginate==0.5.6
+paginate-sqlalchemy==0.3.1
 PyJWT==2.6.0
 pyrsistent==0.18.0
 pytz==2021.3
