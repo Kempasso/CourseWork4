@@ -11,10 +11,6 @@ class UserService:
     def __init__(self, dao):
         self.dao = dao
 
-    def get_all(self):
-        users = self.dao.get_all()
-        return users
-
     def get_one(self, user_id):
         user = self.dao.get_one(user_id)
         return user
@@ -27,15 +23,12 @@ class UserService:
     def update(self, data):
         user_id = data.get('id')
         user = self.get_one(user_id)
-        user.username = data.get('username')
-        password = data.get('password')
-        user.password = self.get_hash(password)
-        user.role = data.get('role')
-
+        for i in data.items():
+            setattr(user, i[0], i[1])
         self.dao.update(user)
 
-    def get_by_username(self, username):
-        user = self.dao.get_by_username(username)
+    def get_by_email(self, email):
+        user = self.dao.get_by_email(email)
         return user
 
     def compare_password(self, hash_password, user_password):
@@ -56,3 +49,13 @@ class UserService:
             PWD_HASH_ITERATIONS
         )
         return base64.b64encode(hash_digest)
+
+    def change_password(self, data, user_id):
+        password = data['password']
+        new_password = data['new_password']
+        user = self.get_one(user_id)
+        if not self.compare_password(user.password, password):
+            return 'Неверный пароль'
+        user.password = self.get_hash(new_password)
+        self.dao.update(user)
+        return 'Пароль изменен'

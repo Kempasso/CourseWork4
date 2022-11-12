@@ -6,10 +6,6 @@ class UserDAO:
     def __init__(self, session):
         self.session = session
 
-    def get_all(self):
-        users = self.session.query(User).all()
-        return users
-
     def get_one(self, user_id):
         user = self.session.query(User).get(user_id)
         return user
@@ -22,6 +18,6 @@ class UserDAO:
         self.session.add(user)
         self.session.commit()
 
-    def get_by_username(self, username):
-        user = self.session.query(User).filter(User.username == username).first()
+    def get_by_email(self, email):
+        user = self.session.query(User).filter(User.email == email).first()
         return user
