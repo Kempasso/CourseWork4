@@ -1,3 +1,4 @@
+from flask import request
 from flask_restx import Resource, Namespace
 from app.dao.models.genre import GenreSchema
 from container import genre_service
@@ -10,7 +11,8 @@ genres_schema = GenreSchema(many=True)
 @genre_ns.route('/')
 class GenresView(Resource):
     def get(self):
-        genres = genre_service.get_all()
+        data = request.json
+        genres = genre_service.get_all(data)
         return genres_schema.dump(genres), 200
 
 
