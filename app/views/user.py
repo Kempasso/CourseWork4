@@ -24,6 +24,9 @@ class UserView(Resource):
         user_service.update(data)
         return 'Успешно', 200
 
+
+@user_ns.route('/password')
+class UserPasswordView(Resource):
     @auth_required
     def put(self, user_id=None):
         data = request.json
